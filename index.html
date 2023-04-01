@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="config.js"></script>
     <title>Document</title>
 </head>
 
@@ -55,61 +56,18 @@
         </div>
 </body>
 <script>
+    var requestOptions = {
+  method: 'GET',
+  redirect: 'follow'
+};
 
-    function kotel(kokot, pica) {
-        fetch('http://127.0.0.1:3000/Burdas')
-        .then((response) => {
-            if (response.status == 200) {
-                return response.json()
-            } else {
-                throw new Error('error')
-            }
-        })
-        .then((responseData) => {
-            console.log(responseData)
-            
-           const john = responseData.find(person => person.summonerName === kokot)
+ let apiKey = config.API_KEY
 
+fetch(`https://eun1.api.riotgames.com/lol/summoner/v4/summoners/by-name/rad0ja?api_key=${apiKey}`, requestOptions)
+  .then(response => response.json())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
 
-            document.getElementById(pica).textContent = john.wins
-            document.getElementById('losses').textContent = john.losses
-            document.getElementById('rankTier').textContent = john.rank
-            document.getElementById('points').textContent = john.leaguePoints
-            document.getElementById('summonerName').textContent = john.summonerName
-
-            switch (john.tier) {
-                case 'IRON':
-                    document.getElementById('rank').setAttribute('src', './ranked-emblems/Emblem_Iron.png')
-                    document.getElementById('emote').setAttribute('class', 'far fa-thumbs-down fa-9x')
-                    break;
-                case 'BRONZE':
-                    document.getElementById('rank').setAttribute('src', './ranked-emblems/Emblem_Bronze.png')
-                    document.getElementById('emote').setAttribute('class', 'far fa-sad-tear fa-9x')
-                    break;
-                case 'SILVER':
-                    document.getElementById('rank').setAttribute('src', './ranked-emblems/Emblem_Silver.png')
-                    document.getElementById('emote').setAttribute('class', 'far fa-meh fa-9x')
-                    break;
-                case 'GOLD':
-                    document.getElementById('rank').setAttribute('src', './ranked-emblems/Emblem_Gold.png')
-                    document.getElementById('emote').setAttribute('class', 'far fa-smile fa-9x')
-                    break;
-                case 'PLATINUM':
-                    document.getElementById('rank').setAttribute('src', './ranked-emblems/Emlbem_Platinum.png')
-                    document.getElementById('emote').setAttribute('class', 'far fa-surprise fa-9x')
-                    break;
-                case 'MASTER':
-                    document.getElementById('rank').setAttribute('src', './ranked-emblems/Emblem_Master.png')
-                    document.getElementById('emote').setAttribute('class', 'far fa-laugh-beam fa-9x')
-                    break;
-                default:
-                    document.getElementById('rank').setAttribute('src', './ranked-emblems/provisional.png')
-                    document.getElementById('emote').setAttribute('class', 'far fa-lauh-squint fa-9x')
-            }
-        })
-    }
-    kotel('Burdas', 'wins')
-    kotel('Kellyn', 'wins1')
 </script>
 
 </html>
